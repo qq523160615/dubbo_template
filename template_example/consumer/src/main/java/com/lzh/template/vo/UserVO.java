@@ -2,15 +2,20 @@ package com.lzh.template.vo;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
- * 人
+ * 用户
  *
  * @author jimmy 523160615@qq.com
  */
-public class Person implements Serializable
+public class UserVO implements Serializable
 {
+    //用户账号
+    @JSONField(name = "id")
+    private String id;
+
     //姓名
     @JSONField(name = "name")
     private String name;
@@ -26,6 +31,16 @@ public class Person implements Serializable
     //手机号码
     @JSONField(name = "phone")
     private String phone;
+
+    public String getId()
+    {
+        return id;
+    }
+
+    public void setId(String id)
+    {
+        this.id = id;
+    }
 
     public String getName()
     {
