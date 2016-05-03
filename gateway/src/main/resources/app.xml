@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <context:component-scan base-package="com.lzh.geteway"/>
+    <context:property-placeholder file-encoding="UTF-8" location="classpath:provider.properties" />
+
+    <!-- don't handle the static resource -->
+    <mvc:default-servlet-handler/>
+
+    <!-- if you use annotation you must configure following setting -->
+    <mvc:annotation-driven/>
+
+    <!-- configure the InternalResourceViewResolver -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+          id="internalResourceViewResolver">
+        <!-- 前缀 -->
+        <property name="prefix" value="/"/>
+    </bean>
+
+    <dubbo:application name="provider.monitor"></dubbo:application>
+    <!-- 要引用的服务 -->
+    <!-- 使用zookeeper注册中心暴露服务地址 -->
+    <dubbo:registry address="zookeeper://192.168.172.109:2181" check="true"></dubbo:registry>
+    
+    <dubbo:reference interface="com.flinkinfo.monitor.service.ArticleService" id="service.article"/>
+    <dubbo:reference interface="com.flinkinfo.monitor.service.ChannelService" id="service.channel"/>
+    <dubbo:reference interface="com.flinkinfo.monitor.service.EnterpriseService" id="service.enterprise"/>
+    <dubbo:reference interface="com.flinkinfo.monitor.service.SubscribeService" id="service.subscribe"/>
+    <dubbo:reference interface="com.flinkinfo.monitor.service.UserInfoService" id="service.cxs_user_info"/>
+    <dubbo:reference interface="com.flinkinfo.monitor.service.ImportDataService" id="service.import_data"/>
+    <dubbo:reference interface="com.flinkinfo.monitor.service.InviterService" id="service.inviter"/>
+
+</beans>
